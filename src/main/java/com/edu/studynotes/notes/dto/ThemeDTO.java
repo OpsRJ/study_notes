@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
+public class ThemeDTO {
 
     private Long id;
 

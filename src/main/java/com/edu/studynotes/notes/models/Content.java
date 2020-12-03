@@ -8,11 +8,7 @@ import java.util.List;
 @Table(name = "contents")
 @Entity
 @Data
-public class Content {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Content extends BaseModel {
 
     @Column(name = "topic_title")
     private String topicTitle;
@@ -29,6 +25,6 @@ public class Content {
     @ManyToOne(fetch = FetchType.LAZY)
     private Content parentTopic;
 
-    @OneToMany(mappedBy = "parentTopic")
+    @OneToMany(mappedBy = "parentTopic", fetch = FetchType.LAZY)
     List<Content> subTitles;
 }

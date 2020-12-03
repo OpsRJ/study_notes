@@ -8,15 +8,11 @@ import java.util.List;
 @Table(name = "themes")
 @Entity
 @Data
-public class Theme {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Theme extends BaseModel {
 
     private String title;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id")
     List<Content> contents;
 }
