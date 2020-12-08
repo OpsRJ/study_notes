@@ -1,9 +1,9 @@
 package com.edu.studynotes.notes.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -18,21 +18,18 @@ public class User extends BaseModel {
     @Temporal(TemporalType.DATE)
     private Date birthDay;
 
+    @Column(unique = true)
     private String nickName;
 
+    @Column(unique = true)
     private String email;
 
+    @JsonIgnore
     private String password;
 
-    private boolean status;
+    private boolean active;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private List<Theme> themes;
-
-    @PrePersist
-    @PreUpdate
-    private void hashPwd() {
-        this.password = Base64.getEncoder().encodeToString(this.password.getBytes());
-    }
 }

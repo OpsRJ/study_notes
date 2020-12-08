@@ -1,7 +1,6 @@
 package com.edu.studynotes.notes.dto;
 
 import com.edu.studynotes.notes.models.Theme;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public class UserDTO {
@@ -27,7 +25,7 @@ public class UserDTO {
 
     private String password;
 
-    private boolean status;
+    private boolean active;
 
     private List<Theme> themes;
 }
