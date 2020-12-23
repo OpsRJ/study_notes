@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User save(User user) {
-        user.setPassword(bcryptEncoder.encode(user.getPassword()));
+        user.setPassword(encryptPwd(user.getPassword()));
         return repository.save(user);
     }
 
@@ -50,5 +50,9 @@ public class UserService implements UserDetailsService {
                     .orElseThrow(() -> new UsernameNotFoundException("No user Found!"));
 
         return new MyUserPrincipal(user);
+    }
+
+    private String encryptPwd(String pwd) {
+        return bcryptEncoder.encode(pwd);
     }
 }

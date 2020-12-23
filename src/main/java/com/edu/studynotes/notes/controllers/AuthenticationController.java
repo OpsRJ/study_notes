@@ -1,7 +1,7 @@
 package com.edu.studynotes.notes.controllers;
 
 import com.edu.studynotes.notes.configuration.JwtTokenUtil;
-import com.edu.studynotes.notes.dto.AuthToken;
+import com.edu.studynotes.notes.dto.AuthTokenDTO;
 import com.edu.studynotes.notes.dto.LoginUserDTO;
 import com.edu.studynotes.notes.dto.UserDTO;
 import com.edu.studynotes.notes.models.User;
@@ -14,11 +14,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/auth")
 public class AuthenticationController {
 
     @Autowired
@@ -30,8 +31,11 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/generate-token")
-    public ResponseEntity<AuthToken> register(@RequestBody LoginUserDTO loginUser) throws AuthenticationException {
+    @Autowired
+    private BCryptPasswordEncoder bcryptEncoder;
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthTokenDTO> doLogin(@RequestBody LoginUserDTO loginUser) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginUser.getNickName(),
@@ -43,11 +47,11 @@ public class AuthenticationController {
         final User user = userService.findByNickName(loginUser.getNickName()).get();
         final String token = jwtTokenUtil.generateToken(user);
 
-        return ResponseEntity.ok(new AuthToken(token, user.getNickName()));
+        return ResponseEntity.ok(new AuthTokenDTO(token, user.getNickName()));
     }
 
-    @PostMapping(value="/signup")
-    public UserDTO saveUser(@RequestBody UserDTO userDTO){
+    @PostMapping(value="/register")
+    public UserDTO register(@RequestBody UserDTO userDTO){
         User userToSave = ObjectMapperUtils.map(userDTO, User.class);
 
         return ObjectMapperUtils.map(userService.save(userToSave), UserDTO.class);

@@ -5,11 +5,11 @@ import lombok.*;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class AuthToken {
+public class AuthTokenDTO {
 
     @NonNull
     private String token;
 
     @NonNull
-    private String username;
+    private String nickName;
 }
